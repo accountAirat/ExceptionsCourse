@@ -1,0 +1,40 @@
+class CustomCounter:
+    def init(self, value = 0):
+        self.value = value
+        self.close = False
+
+    @property
+    def value(self):
+        if self.close:
+            raise AttributeError
+        return self.__value
+    
+    def add(self):
+        if self.close:
+            raise AttributeError
+        self.__value += 1
+
+    def __enter(self):
+        return self
+    
+    def str(self):
+        return f"CustomCounter({self.value})"
+
+    def __exit(self, exc_type, exc_value, traceback):
+        self.close = True
+        del self.__value
+        del self
+        return False
+
+
+obj = CustomCounter()
+
+print(obj)
+
+with obj as example:
+    print(obj.value)
+    obj.add()
+    obj.add()
+    print(obj.value)
+
+print(obj)

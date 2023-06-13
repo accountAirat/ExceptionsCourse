@@ -1,0 +1,29 @@
+class MyArraySizeException(Exception):
+    pass
+
+class MyArrayDataException(Exception):
+    pass
+
+def check_array_size(arr):
+    if len(arr) !=4 or any(map(lambda x: len(x) !=4 , arr)):
+        raise MyArraySizeException('Размер массива не соответствует 4х4')
+    return True
+    
+def sum_array(arr):
+    check_array_size(arr)
+    total = 0
+    for i in range(len(arr)):
+        for j in range(len(arr[i])):
+            try:
+                total += int(arr[i][j])
+            except:
+                raise MyArrayDataException(f'В ячейке {i}, {j} неверный формат: {arr[i][j]}')
+    return total
+
+
+   
+arr = [[5]*4 for i in range(4)]
+
+#arr[3][2] = 'asd'
+
+print(sum_array(arr))
